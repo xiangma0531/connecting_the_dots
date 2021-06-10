@@ -1,0 +1,22 @@
+<%= form_with(model: dot, local: true) do |f| %>
+
+  <div class="form_parts">
+    <%= f.label :title %>
+    <%= f.text_field :title, placeholder: "タイトル", autofocus: true %>
+  </div>
+
+  <div class="form_parts">
+    <%= f.label :category_id %>
+    <%= f.collection_select :category_id, Category.all, :id, :name, {include_blank: "---"} %>
+  </div>
+
+  <div class="form_parts">
+    <%= f.label :content %>
+    <%= f.text_area :content, placeholder: "感じたこと・考えたことなどを記入" %>
+  </div>
+
+  <div class="dot_action">
+    <%= f.submit "作成", class: "dot_action_btn" %>
+  </div>
+
+<% end %>
