@@ -40,6 +40,15 @@
         <% end %>
       </div>
     </header>
-    <%= yield %>
+  <div class="student_info">
+    <% unless user_signed_in? %>
+      右上のボタンから<b>「ログイン」</b>または<b>「新規登録」</b>してください
+    <% end %>
+  </div>
+  <div class="contents_wrapper">
+    <div class="contents">
+      <%= yield %>
+    </div>
+  </div>
   </body>
 </html>
