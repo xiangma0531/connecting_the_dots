@@ -10,6 +10,36 @@
   </head>
 
   <body>
+    <header class="header">
+      <div class="header_title_box">
+        <%= link_to 'Connecting the Dots',root_path, class: "header_title" %>
+      </div>
+      <div class="header_right">
+        <% if user_signed_in? %>
+          <ul class="header_buttons">
+            <li class="new_dot">
+              <%= link_to "New Dot", root_path, class: "new_dot_btn" %>
+            </li>
+            <li class="user_session">
+              <p id="menu_trigger"><%= current_user.name %></p>
+            </li>
+          </ul>
+          <ul id="session_menu">
+            <li class="menu_list" id="user_edit"><%= link_to "ユーザー情報編集", edit_user_registration_path %></li>
+            <li class="menu_list"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "session_btn" %></li>
+          </ul>
+        <% else %>
+          <ul class="header_buttons">
+            <li class="user_session">
+              <%= link_to "ログイン", new_user_session_path, class: "session_btn" %>
+            </li>
+            <li class="user_session">
+              <%= link_to "新規登録", new_user_registration_path, class: "session_btn" %>
+            </li>
+          </ul>
+        <% end %>
+      </div>
+    </header>
     <%= yield %>
   </body>
 </html>
