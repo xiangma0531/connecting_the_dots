@@ -1,2 +1,20 @@
-<h1>Users#index</h1>
-<p>Find me in app/views/users/index.html.erb</p>
+<% if user_signed_in? %>
+  <% @dots.each do |dot| %>
+    <div class="dot">
+      <div class="dot_upper">
+        <%= link_to dot.title, root_path %>
+      </div>
+      <div class="dot_bottom">
+        <div class="acted_at">
+          <div class="act">
+            投稿日：
+          </div>
+          <div class="date">
+            <%= dot.created_at %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  </div>
+<% end %>
