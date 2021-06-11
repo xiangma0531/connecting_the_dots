@@ -28,6 +28,12 @@ class DotsController < ApplicationController
     end
   end
 
+  def destroy
+    dot = Dot.find(params[:id])
+    dot.destroy
+    redirect_to root_path
+  end
+
   private
   def dot_params
     params.require(:dot).permit(:title, :category_id, :content).merge(user_id: current_user.id)
