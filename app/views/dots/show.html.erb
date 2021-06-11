@@ -1,0 +1,21 @@
+<div class="operation_buttons">
+  <%= link_to '編集', root_path, class: "ope_btn" %>
+  <%= link_to '削除', root_path, class: "ope_btn" %>
+</div>
+<table class="dot_table">
+  <tr>
+    <th class="single_row_table">タイトル</th>
+    <td class="single_row_table"><%= @dot.title %></td>
+  </tr>
+
+  <tr>
+    <th class="single_row_table">カテゴリー</th>
+    <td class="single_row_table"><%= @dot.category.name %></td>
+  </tr>
+
+  <tr>
+    <th class="single_row_table">考えたこと<br />・<br />感じたこと</th>
+    <td><%= @dot.content %></td>
+  </tr>
+
+</table>

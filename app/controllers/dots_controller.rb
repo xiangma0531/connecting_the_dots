@@ -13,6 +13,10 @@ class DotsController < ApplicationController
     end
   end
 
+  def show
+    @dot = Dot.find(params[:id])
+  end
+
   private
   def dot_params
     params.require(:dot).permit(:title, :category_id, :content).merge(user_id: current_user.id)

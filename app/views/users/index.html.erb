@@ -2,7 +2,7 @@
   <% @dots.each do |dot| %>
     <div class="dot">
       <div class="dot_upper">
-        <%= link_to dot.title, root_path %>
+        <%= link_to dot.title, dot_path(dot.id) %>
       </div>
       <div class="dot_bottom">
         <div class="acted_at">
