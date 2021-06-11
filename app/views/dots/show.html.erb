@@ -1,6 +1,6 @@
 <div class="operation_buttons">
   <%= link_to '編集', edit_dot_path(@dot.id), class: "ope_btn" %>
-  <%= link_to '削除', root_path, class: "ope_btn" %>
+  <%= link_to '削除', dot_path(@dot.id),method: :delete, class: "ope_btn" %>
 </div>
 <table class="dot_table">
   <tr>
