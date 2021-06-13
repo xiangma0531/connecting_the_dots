@@ -16,25 +16,25 @@ RSpec.describe Dot, type: :model do
       it 'titleが空では新規投稿できない' do
         @dot.title = ''
         @dot.valid?
-        expect(@dot.errors.full_messages).to include("Title can't be blank")
+        expect(@dot.errors.full_messages).to include("タイトルを入力してください")
       end
 
       it 'categoryが空では新規登録できない' do
         @dot.category_id = nil
         @dot.valid?
-        expect(@dot.errors.full_messages).to include("Category can't be blank")
+        expect(@dot.errors.full_messages).to include("カテゴリーを入力してください")
       end
 
       it 'contentが空では新規投稿できない' do
         @dot.content = ''
         @dot.valid?
-        expect(@dot.errors.full_messages).to include("Content can't be blank")
+        expect(@dot.errors.full_messages).to include("メモを入力してください")
       end
 
       it 'userが紐づいていないと新規投稿できない' do
         @dot.user = nil
         @dot.valid?
-        expect(@dot.errors.full_messages).to include("User must exist")
+        expect(@dot.errors.full_messages).to include("Userを入力してください")
       end
     end
   end
