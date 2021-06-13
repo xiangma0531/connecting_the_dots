@@ -1,0 +1,9 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        name: 名前
+      dot:
+        title: タイトル
+        category_id: カテゴリー
+        content: メモ
