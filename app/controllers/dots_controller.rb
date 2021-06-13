@@ -1,4 +1,5 @@
 class DotsController < ApplicationController
+  before_action :move_to_index, except: [:new, :create]
   before_action :set_dot, only: [:show, :edit, :update]
 
   def new
@@ -41,6 +42,13 @@ class DotsController < ApplicationController
 
   def set_dot
     @dot = Dot.find(params[:id])
+  end
+
+  def move_to_index
+    dot = Dot.find(params[:id])
+    unless dot.user_id == current_user.id
+      redirect_to root_path 
+    end
   end
 
 end
