@@ -1,4 +1,5 @@
 <%= form_with(model: dot, local: true) do |f| %>
+  <%= render 'layouts/error_messages', model: f.object %>
 
   <div class="form_parts">
     <%= f.label :title %>
