@@ -30,8 +30,9 @@ header {
 
 .header_title_box {
   height: 100%;
-  font-size: 25px;
+  font-size: 27px;
   font-weight: bold;
+  padding: 8px 0;
 }
 
 .header_title_bottom {
@@ -81,7 +82,7 @@ li {
 }
 
 #session_menu {
-  margin-left: 123px;
+  margin-left: 100px;
   background-color: white;
   border: 1px solid #666;
   display: none;
