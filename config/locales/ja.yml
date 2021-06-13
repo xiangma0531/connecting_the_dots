@@ -7,3 +7,6 @@ ja:
         title: タイトル
         category_id: カテゴリー
         content: メモ
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
