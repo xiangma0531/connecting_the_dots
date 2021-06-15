@@ -40,15 +40,11 @@
         <% end %>
       </div>
     </header>
-  <div class="student_info">
-    <% unless user_signed_in? %>
-      右上のボタンから<b>「ログイン」</b>または<b>「新規登録」</b>してください
-    <% end %>
-  </div>
-  <div class="contents_wrapper">
-    <div class="contents">
+    <div class="wrapper">
       <%= yield %>
     </div>
-  </div>
+    <footer class="footer">
+      <p class="footer-content">Copyright Connecting the Dots 2021.</p>
+    </footer>
   </body>
 </html>
