@@ -113,11 +113,15 @@ li {
   margin-left: 5px;
 }
 
+.wrapper {
+  height: 100vh;
+}
+
 .contents_wrapper {
   margin-top: 10px;
   display: flex;
   justify-content: center;
-  height: calc(100vh - 130px);
+  height: 100vh;
 }
 
 .contents {
@@ -141,10 +145,43 @@ li {
   font-size: 23px;
 }
 
-.acted_at {
+.created_at {
   display: flex;
   justify-content: flex-end;
   margin: 15px;
+}
+
+.top-image {
+  height: 100%;
+  width: 100%;
+}
+
+.app-introduction {
+  margin: 30px 0;
+}
+
+.intro-title {
+  width: 400px;
+  text-align: center;
+  font-size: 30px;
+  margin: 15px auto;
+  border-bottom: 1px solid #57c3e9;
+}
+
+.app-exp {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.footer {
+  height: 40px;
+  padding: 0 30px;
+  background-color: lightgray;
+}
+
+.footer-content {
+  text-align: end;
 }
 
 /* 詳細画面 */

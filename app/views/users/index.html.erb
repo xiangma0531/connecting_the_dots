@@ -5,8 +5,8 @@
         <%= link_to dot.title, dot_path(dot.id) %>
       </div>
       <div class="dot_bottom">
-        <div class="acted_at">
-          <div class="act">
+        <div class="created_at">
+          <div class="created">
             投稿日：
           </div>
           <div class="date">
@@ -16,5 +16,27 @@
       </div>
     </div>
   <% end %>
+  </div>
+<% else %>
+  <div class="top-imagewrapper">
+    <%= image_tag 'phonto.jpg', class: "top-image"%>
+  </div>
+  <div class="app-info">
+    <div class="app-introduction">
+      <h2 class="intro-title">＜自分と「対話」しよう＞</h2>
+      <p class="app-exp">「自分って何がしたいんだっけ…？」</p>
+      <p class="app-exp">他人の多様な生き方に触れられるこんな時代だからこそ、</p>
+      <p class="app-exp">じっくり自分と「対話」することが求められる。</p>
+      <p class="app-exp">自分との「対話」を通して、「理想の自分」と繋がろう。</p>
+    </div>
+    <div class="app-introduction">
+      <h2 class="intro-title">＜使い方＞</h2>
+      <p class="app-exp">日記のように、</p>
+      <p class="app-exp">日常のあらゆるできごとの中で</p>
+      <p class="app-exp">考えたこと・感じたことを「Dot」として記録していく。</p>
+      <p class="app-exp">作成した「Dot」は一覧表示が可能。</p>
+      <p class="app-exp">一覧表示された「Dot」を眺めて、</p>
+      <p class="app-exp">自分の好きなことや得意なこと、自分が大切にしている価値観を見つけていこう。</p>
+    </div>
   </div>
 <% end %>
