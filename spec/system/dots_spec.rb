@@ -39,3 +39,72 @@ RSpec.describe "新規投稿", type: :system do
     end
   end
 end
+
+RSpec.describe "新規投稿", type: :system do
+  before do
+    @dot1 = FactoryBot.create(:dot)
+    @dot2 = FactoryBot.create(:dot)
+  end
+
+  context 'Dot編集ができるとき' do
+    it 'ログインしたユーザーは自分が作成したDotの編集ができる' do
+      # Dot1を作成したユーザーでログインする
+      sign_in(@dot1.user)
+      # Dot1が表示されていることを確認する
+      expect(page).to have_content(@dot1.title)
+      # Dot1のタイトルをクリックする
+      find_link(@dot1.title, href: dot_path(@dot1)).click
+      # Dot1の詳細ページに遷移したことを確認する
+      expect(current_path).to eq(dot_path(@dot1))
+      # Dot1の詳細ページに「編集」へのリンクがあることを確認する
+      expect(page).to have_link '編集', href: edit_dot_path(@dot1)
+      # 編集ページへ遷移する
+      visit edit_dot_path(@dot1)
+      # すでに作成済みの内容がフォームに入っていることを確認する
+      expect(
+        find('#dot_title').value
+      ).to eq(@dot1.title)
+      expect(
+        find('#dot_category_id').value
+      ).to eq("#{@dot1.category_id}")
+      expect(
+        find('#dot_content').value
+      ).to eq(@dot1.content)
+      # 投稿内容を編集する
+      fill_in 'dot_title', with: "#{@dot1.title}+編集したタイトル"
+      select '家庭学習', from: 'dot_category_id'
+      fill_in 'dot_content', with: "#{@dot1.content}+編集したcontent"
+      # 編集してもDotモデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change{Dot.count}.by(0)
+      # 詳細ページに遷移することを確認する
+      expect(current_path).to eq(dot_path(@dot1))
+      # 詳細ページには先ほど変更した内容のDotが表示されていることを確認する
+      expect(page).to have_content("#{@dot1.title}+編集したタイトル")
+      expect(page).to have_content('家庭学習')
+      expect(page).to have_content("#{@dot1.content}+編集したcontent")
+      # トップページに移動する
+      visit root_path
+      # トップページには先ほど変更したタイトルのDotが表示されていることを確認する
+      expect(page).to have_content("#{@dot1.title}+編集したタイトル")
+    end
+  end
+
+  context 'Dot編集ができないとき'
+    it 'ログインしたユーザーは自分以外が作成したDotの編集画面には遷移できない' do
+      # Dot1を作成したユーザーでログインする
+      sign_in(@dot1.user)
+      # Dot2は表示されていないことを確認する
+      expect(page).to have_no_content(@dot2.title)
+    end
+
+    it 'ログインしていないとDotの編集画面には遷移できない' do
+      # トップページにいる
+      visit root_path
+      # Dot1が表示されていないことを確認する
+      expect(page).to have_no_content(@dot1.title)
+      # Dot2が表示されていないことを確認する
+      expect(page).to have_no_content(@dot2.title)
+    end
+end
