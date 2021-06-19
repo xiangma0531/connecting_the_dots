@@ -40,7 +40,7 @@ RSpec.describe "新規投稿", type: :system do
   end
 end
 
-RSpec.describe "新規投稿", type: :system do
+RSpec.describe "Dot編集", type: :system do
   before do
     @dot1 = FactoryBot.create(:dot)
     @dot2 = FactoryBot.create(:dot)
@@ -107,4 +107,51 @@ RSpec.describe "新規投稿", type: :system do
       # Dot2が表示されていないことを確認する
       expect(page).to have_no_content(@dot2.title)
     end
+end
+
+RSpec.describe "Dot削除", type: :system do
+  before do
+    @dot1 = FactoryBot.create(:dot)
+    @dot2 = FactoryBot.create(:dot)
+  end
+  context 'Dot削除ができるとき' do
+    it 'ログインしたユーザーは自らが作成したDotの削除ができる' do
+      # Dot1を作成したユーザーでログインする
+      sign_in(@dot1.user)
+      # Dot1が表示されていることを確認する
+      expect(page).to have_content(@dot1.title)
+      # Dot1のタイトルをクリックする
+      find_link(@dot1.title, href: dot_path(@dot1)).click
+      # Dot1の詳細ページに遷移したことを確認する
+      expect(current_path).to eq(dot_path(@dot1))
+      # Dot1の詳細ページに「削除」リンクがあることを確認する
+      expect(page).to have_link('削除', href: dot_path(@dot1))
+      # Dot1を削除するとレコードの数が1減ることを確認する
+      expect{
+        find_link('削除', href: dot_path(@dot1)).click
+      }.to change{Dot.count}.by(-1)
+      # トップページに遷移したことを確認する
+      expect(current_path).to eq(root_path)
+      # トップページにはDot1の内容が存在しないことを確認する
+      expect(page).to have_no_content(@dot1.title)
+    end
+  end
+
+  context 'Dot削除ができないとき' do
+    it 'ログインしたユーザーは自分以外が作成したDotの削除ができない' do
+      # Dot1を作成したユーザーでログインする
+      sign_in(@dot1.user)
+      # Dot2の内容が存在しないことを確認する
+      expect(page).to have_no_content(@dot2.title)
+    end
+
+    it 'ログインしていないとDot削除ができない' do
+      # トップページにいる
+      visit root_path
+      # Dot1が表示されていないことを確認する
+      expect(page).to have_no_content(@dot1.title)
+      # Dot2が表示されていないことを確認する
+      expect(page).to have_no_content(@dot2.title)
+    end
+  end
 end
