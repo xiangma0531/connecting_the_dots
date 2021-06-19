@@ -114,6 +114,7 @@ RSpec.describe "Dot削除", type: :system do
     @dot1 = FactoryBot.create(:dot)
     @dot2 = FactoryBot.create(:dot)
   end
+
   context 'Dot削除ができるとき' do
     it 'ログインしたユーザーは自らが作成したDotの削除ができる' do
       # Dot1を作成したユーザーでログインする
@@ -146,6 +147,48 @@ RSpec.describe "Dot削除", type: :system do
     end
 
     it 'ログインしていないとDot削除ができない' do
+      # トップページにいる
+      visit root_path
+      # Dot1が表示されていないことを確認する
+      expect(page).to have_no_content(@dot1.title)
+      # Dot2が表示されていないことを確認する
+      expect(page).to have_no_content(@dot2.title)
+    end
+  end
+end
+
+RSpec.describe "Dot詳細表示", type: :system do
+  before do
+    @dot1 = FactoryBot.create(:dot)
+    @dot2 = FactoryBot.create(:dot)
+  end
+
+  context 'Dotの詳細を表示できるとき' do
+    it 'ログインしたユーザーは自らが作成したDotの詳細を表示できる' do
+      # Dot1を作成したユーザーとしてログインする
+      sign_in(@dot1.user)
+      # Dot1が表示されていることを確認する
+      expect(page).to have_content(@dot1.title)
+      # Dot1のタイトルをクリックする
+      find_link(@dot1.title, href: dot_path(@dot1)).click
+      # Dot1の詳細ページに遷移したことを確認する
+      expect(current_path).to eq(dot_path(@dot1))
+      # Dot1の内容が表示されていることを確認する
+      expect(page).to have_content(@dot1.title)
+      expect(page).to have_content("#{@dot1.category_id}")
+      expect(page).to have_content(@dot1.content)
+    end
+  end
+
+  context 'Dotの詳細を表示できないとき' do
+    it 'ログインしたユーザーは自分以外が作成したDotの詳細を表示できない' do
+      # Dot1を作成したユーザーとしてログインする
+      sign_in(@dot1.user)
+      # Dot2が表示されていないことを確認する
+      expect(page).to have_no_content(@dot2.title)
+    end
+
+    it 'ログインしていなければ詳細画面に遷移できない' do
       # トップページにいる
       visit root_path
       # Dot1が表示されていないことを確認する
