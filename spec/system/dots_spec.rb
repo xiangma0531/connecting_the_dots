@@ -16,7 +16,7 @@ RSpec.describe "新規投稿", type: :system do
       visit new_dot_path
       # フォームに情報を入力する
       fill_in 'dot_title', with: @dot.title
-      select '日々の授業', from: 'dot_category_id'
+      select '考え事', from: 'dot_category_id'
       fill_in 'dot_content', with: @dot.content
       # 送信するとDotモデルのカウントが1上がることを確認する      
       expect{
@@ -72,7 +72,7 @@ RSpec.describe "Dot編集", type: :system do
       ).to eq(@dot1.content)
       # 投稿内容を編集する
       fill_in 'dot_title', with: "#{@dot1.title}+編集したタイトル"
-      select '家庭学習', from: 'dot_category_id'
+      select '読書', from: 'dot_category_id'
       fill_in 'dot_content', with: "#{@dot1.content}+編集したcontent"
       # 編集してもDotモデルのカウントは変わらないことを確認する
       expect{
@@ -82,7 +82,7 @@ RSpec.describe "Dot編集", type: :system do
       expect(current_path).to eq(dot_path(@dot1))
       # 詳細ページには先ほど変更した内容のDotが表示されていることを確認する
       expect(page).to have_content("#{@dot1.title}+編集したタイトル")
-      expect(page).to have_content('家庭学習')
+      expect(page).to have_content('読書')
       expect(page).to have_content("#{@dot1.content}+編集したcontent")
       # トップページに移動する
       visit root_path
