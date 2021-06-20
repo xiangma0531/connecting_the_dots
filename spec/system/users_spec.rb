@@ -106,3 +106,74 @@ RSpec.describe "ログイン機能", type: :system do
     end
   end
 end
+
+RSpec.describe "ユーザー情報編集機能", type: :system do
+  before do
+    @user = FactoryBot.create(:user)
+  end
+
+  context 'ユーザー情報を編集できるとき' do
+    it '必要な情報を正しく入力すればユーザー情報を編集できる' do
+      # ログインする
+      sign_in(@user)
+      # ユーザー情報編集ページへ遷移する
+      visit edit_user_registration_path
+      # 現在のユーザー情報が入力されていることを確認する
+      expect(
+        find('#user_name').value
+      ).to eq(@user.name)
+      expect(
+        find('#user_email').value
+      ).to eq(@user.email)
+      # 入力する
+      fill_in 'user_name', with: "#{@user.name}+編集しました"
+      fill_in 'user_current_password', with: @user.password
+      # 「更新」ボタンをクリックしてもUserモデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change{User.count}.by(0)
+      # トップページに遷移したことを確認する
+      expect(current_path).to eq(root_path)
+      # 編集した名前が表示されていることを確認する
+      expect(page).to have_content("#{@user.name}+編集しました")
+    end
+  end
+
+  context 'ユーザー情報が編集できないとき' do
+    it '現在のパスワードを入力しなければユーザー情報は編集できず、エラーメッセージが表示される' do
+      # ログインする
+      sign_in(@user)
+      # ユーザー情報編集ページへ遷移する
+      visit edit_user_registration_path
+      # 現在のユーザー情報が入力されていることを確認する
+      expect(
+        find('#user_name').value
+      ).to eq(@user.name)
+      expect(
+        find('#user_email').value
+      ).to eq(@user.email)
+      # 入力する
+      fill_in 'user_name', with: ''
+      fill_in 'user_email', with: ''
+      fill_in 'user_current_password', with: ''
+      # 「更新」ボタンをクリックしてもUserモデルのカウントは変わらないことを確認する
+      expect{
+        find('input[name="commit"]').click
+      }.to change{User.count}.by(0)
+      # ユーザー情報編集ページへ戻されていることを確認する
+      expect(current_path).to eq(user_registration_path)
+      # エラーメッセージが表示されていることを確認する
+      expect(page).to have_content("3 件のエラーが発生したため ユーザー は保存されませんでした。")
+      expect(page).to have_content("Eメールを入力してください")
+      expect(page).to have_content("名前を入力してください")
+      expect(page).to have_content("現在のパスワードを入力してください")
+    end
+
+    it 'ログインしていなければユーザー情報は編集できない' do
+      # トップページにいる
+      visit root_path
+      # ユーザー情報編集ページへのリンクが存在しないことを確認する
+      expect(page).to have_no_link('ユーザー情報編集', href: edit_user_registration_path)
+    end
+  end
+end
